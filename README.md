@@ -32,6 +32,16 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 ```
 
+*If you are using Devise* here's an example you would put in `config/initializers/devise.rb`:
+```ruby
+config.omniauth :bike_index, 
+                  Rails.application.secrets.bikeindex_app_id, 
+                  Rails.application.secrets.bikeindex_app_secret, 
+                  {
+                    :scope => 'read_user write_user'  
+                  }
+```
+
 Your `BIKEINDEX_APP_ID` and your `BIKEINDEX_APP_SECRET` are both application specific. To create or view your applications go to [BikeIndex.org/oauth/applications](https://bikeindex.org/oauth/applications).
 
 Edit your routes.rb file to have:
