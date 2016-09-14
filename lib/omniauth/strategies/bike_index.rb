@@ -3,22 +3,30 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class BikeIndex < OmniAuth::Strategies::OAuth2
+
       option :name, :bike_index
-      DEFAULT_SCOPE = 'public'
-      option :client_options, :site          => 'https://bikeindex.org',
-                              :authorize_url => '/oauth/authorize'
+      option :client_options, {
+                              :site          => 'https://bikeindex.org',
+                              :authorize_url => '/oauth/authorize' }
 
       uid { raw_info['id'] }
 
       info do
-        prune!(
-          'nickname'    => raw_info['user']['username'],
-          'bike_ids'    => raw_info['bike_ids'],
-          'email'       => raw_info['user']['email'],
-          'name'        => raw_info['user']['name'],
-          'twitter'     => raw_info['user']['twitter'],
-          'image'       => raw_info['user']['image'],
-        )
+        hash = {}
+
+        unless raw_info['bike_ids'].nil? || raw_info['bike_ids'] == 0
+          hash['bike_ids'] = raw_info['bike_ids'] 
+        end
+        
+        unless raw_info['user'].nil? || raw_info['user'] == 0
+          hash['nickname']  = raw_info['user']['username']
+          hash['email']     = raw_info['user']['email']
+          hash['name']      = raw_info['user']['name']
+          hash['twitter']   = raw_info['user']['twitter']
+          hash['image']     = raw_info['user']['image']
+        end
+        
+        prune! hash
       end
 
       extra do
