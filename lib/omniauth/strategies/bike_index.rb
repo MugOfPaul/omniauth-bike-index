@@ -10,7 +10,7 @@ module OmniAuth
       option :client_options, { :site          => 'https://bikeindex.org',
                                 :authorize_url => '/oauth/authorize' }
 
-      option :scope, DEFAULT_SCOPE
+      #option :scope, DEFAULT_SCOPE
       
 
       uid { raw_info['id'] }
