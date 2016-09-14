@@ -44,9 +44,8 @@ module OmniAuth
       end
 
       def authorize_params
-        params = super
-        params[:scope] = options[:scope]
-        params
+        options.authorize_params[:scope] = options[:scope]
+        super
       end
 
     private
