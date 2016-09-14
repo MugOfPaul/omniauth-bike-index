@@ -44,7 +44,7 @@ module OmniAuth
       end
 
       def authorize_params
-        options.authorize_params[:scope] = options[:scope]
+        options.authorize_params[:scope] = 'read_user read_bikes'
         super
       end
 
