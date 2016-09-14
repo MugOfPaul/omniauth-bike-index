@@ -3,13 +3,15 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class BikeIndex < OmniAuth::Strategies::OAuth2
-
-      option :name, :bike_index
-      option :client_options, {
-                              :site          => 'https://bikeindex.org',
-                              :authorize_url => '/oauth/authorize' }
+      include OmniAuth::Strategy
 
       DEFAULT_SCOPE = 'public'
+
+      option :name, :bike_index
+      option :client_options, { :site          => 'https://bikeindex.org',
+                                :authorize_url => '/oauth/authorize' }
+      option :scope, DEFAULT_SCOPE
+      
 
       uid { raw_info['id'] }
 
@@ -42,10 +44,7 @@ module OmniAuth
       end
 
       def request_phase
-        options[:authorize_params] = {
-          :scope          => (DEFAULT_SCOPE || options['scope'])
-        }
-
+        options[:authorize_params] = { :scope => options['scope'] }
         super
       end
 
