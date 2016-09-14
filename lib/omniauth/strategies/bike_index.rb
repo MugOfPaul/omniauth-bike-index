@@ -47,6 +47,14 @@ module OmniAuth
         super
       end
 
+      def callback_url
+        if @authorization_code_from_signed_request_in_cookie
+          ''
+        else
+          options[:callback_url] || (full_host + script_name + callback_path)
+        end
+      end
+
     private
 
       def prune!(hash)
