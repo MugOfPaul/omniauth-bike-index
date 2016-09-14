@@ -4,13 +4,13 @@ module OmniAuth
   module Strategies
     class BikeIndex < OmniAuth::Strategies::OAuth2
 
-      DEFAULT_SCOPE = 'public'
+      DEFAULT_SCOPE = 'read_user read_bikes'
 
       option :name, :bike_index
       option :client_options, { :site          => 'https://bikeindex.org',
                                 :authorize_url => '/oauth/authorize' }
 
-      #option :scope, DEFAULT_SCOPE
+      option :scope, DEFAULT_SCOPE
       
 
       uid { raw_info['id'] }
@@ -44,7 +44,7 @@ module OmniAuth
       end
 
       def authorize_params
-        options.authorize_params[:scope] = 'read_user read_bikes'
+        options.authorize_params[:scope] = options[:scope]
         super
       end
 
