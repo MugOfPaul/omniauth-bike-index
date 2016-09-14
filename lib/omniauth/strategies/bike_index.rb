@@ -9,7 +9,8 @@ module OmniAuth
       option :name, :bike_index
       option :client_options, { :site          => 'https://bikeindex.org',
                                 :authorize_url => '/oauth/authorize' }
-      #option :authorize_params, { :scope       => DEFAULT_SCOPE }
+
+      option :scope, DEFAULT_SCOPE
       
 
       uid { raw_info['id'] }
@@ -40,6 +41,11 @@ module OmniAuth
 
       def raw_info
         @raw_info ||= access_token.get('/api/v2/me').parsed || {}
+      end
+
+      def authorize_params
+        params = super
+        params[:scope] = options[:scope]
       end
 
     private
